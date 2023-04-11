@@ -119,6 +119,13 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
 
+      - name: 'Chech if MySQL is accepting connections'
+        run: |
+            while ! docker-compose exec -T mysql /bin/bash -c 'mysql --user='root' --password='root' --execute="SHOW DATABASES;"' | grep 'information_schema' >/dev/null; do
+            echo 'Waiting for MariaDB query...'
+            sleep 1
+            done
+
       - name: Check existence of composer.json & behat.yml files
         id: check_files
         uses: andstor/file-existence-action@v2
@@ -159,13 +166,6 @@ jobs:
       - name: Start MySQL server
         if: steps.check_files.outputs.files_exists == 'true'
         run: sudo systemctl start mysql
-
-      - name: 'Chech if MySQL is accepting connections'
-        run: |
-            while ! docker-compose exec -T mysql /bin/bash -c 'mysql --user='root' --password='root' --execute="SHOW DATABASES;"' | grep 'information_schema' >/dev/null; do
-            echo 'Waiting for MariaDB query...'
-            sleep 1
-            done
 
       - name: Configure DB environment
         if: steps.check_files.outputs.files_exists == 'true'
