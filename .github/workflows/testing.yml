@@ -11,4 +11,4 @@ on:
 
 jobs:
   test:
-    uses: wp-cli/.github/.github/workflows/reusable-testing.yml@main
+    uses: wojsmol/.github/.github/workflows/reusable-testing.yml@try/check-database-connection

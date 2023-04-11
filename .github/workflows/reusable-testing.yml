@@ -119,10 +119,10 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
 
-      - name: 'Chech if MySQL is accepting connections'
+      - name: 'Check if MySQL is accepting connections'
         run: |
             while ! docker-compose exec -T mysql /bin/bash -c 'mysql --user='root' --password='root' --execute="SHOW DATABASES;"' | grep 'information_schema' >/dev/null; do
-            echo 'Waiting for MariaDB query...'
+            echo 'Waiting for MySQL query...'
             sleep 1
             done
 
