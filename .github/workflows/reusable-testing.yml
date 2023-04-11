@@ -161,7 +161,6 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: 'Chech if MySQL is accepting connections'
-        if: steps.check_files.outputs.files_exists == 'true'
         run: |
             while ! docker-compose exec -T mysql /bin/bash -c 'mysql --user='root' --password='root' --execute="SHOW DATABASES;"' | grep 'information_schema' >/dev/null; do
             echo 'Waiting for MariaDB query...'
